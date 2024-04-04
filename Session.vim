@@ -13,9 +13,9 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 App.js
+badd +28 App.js
 badd +1 ~/DEV/REACT_NATIVE_ACADEMIND/Section08/RNExpenseTracker/screens/AllExpenses.js
-badd +6 ~/DEV/REACT_NATIVE_ACADEMIND/Section08/RNExpenseTracker/screens/ManageExpense.js
+badd +3 ~/DEV/REACT_NATIVE_ACADEMIND/Section08/RNExpenseTracker/screens/ManageExpense.js
 badd +6 ~/DEV/REACT_NATIVE_ACADEMIND/Section08/RNExpenseTracker/screens/RecentExpenses.js
 argglobal
 %argdel
@@ -30,13 +30,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-1,2fold
-6,9fold
-5,10fold
-4,10fold
-14,18fold
-13,19fold
+1,6fold
+16,18fold
+15,19fold
 13,20fold
+12,21fold
+11,21fold
 let &fdl = &fdl
 let s:l = 1 - ((0 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
