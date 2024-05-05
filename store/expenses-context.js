@@ -48,8 +48,8 @@ export const ExpensesContext = createContext({
   updateExpense: (id, { description, amount, date }) => { },
 });
 
-// ______________________________________________________________________
-// WARNING: The job of a Reducer is to always return a new state value.
+// WARN: ______________________________________________________________
+// WARN: The job of a Reducer is to always return a new state value.
 function expensesReducer(state, action) {
   switch (action.type) {
     case "ADD":
