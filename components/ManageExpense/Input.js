@@ -1,10 +1,10 @@
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View } from "react-native";
 
-function Input( { label, textInputConfig } ) {
+function Input({ label, textInputConfig }) {
   return (
     <View>
-      <Text>{ label }</Text>
-      <TextInput { ...textInputConfig } />
+      <Text>{label}</Text>
+      <TextInput {...textInputConfig} />
     </View>
   );
 }
