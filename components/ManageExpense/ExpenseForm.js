@@ -3,14 +3,17 @@ import { View } from "react-native";
 import Input from "./Input";
 
 function ExpenseForm() {
+  // ______________________________________________________________________
   function amountChangeHandler() { }
 
+  // ______________________________________________________________________
   return (
     <View>
       <Input
         label="Amount"
         textInputConfig={{
-          KeyboardType: "decimal-pad",
+          inputMode: "numeric",
+          // KeyboardType: "numeric",
           onChangeText: amountChangeHandler,
         }}
       />
