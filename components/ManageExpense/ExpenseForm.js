@@ -1,35 +1,40 @@
-import { View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import Input from "./Input";
 
 function ExpenseForm() {
   // ______________________________________________________________________
-  function amountChangeHandler() { }
+  function amountChangeHandler() {}
 
   // ______________________________________________________________________
   return (
-    <View>
-      <Input
-        label="Amount"
-        textInputConfig={{
-          inputMode: "numeric",
-          // KeyboardType: "numeric",
-          onChangeText: amountChangeHandler,
-        }}
-      />
-      <Input
-        label="Date"
-        textInputConfig={{
-          placeholder: "YYYY-MM-DD",
-          maxLength: 10,
-          onChangeText: () => { },
-        }}
-      />
+    <View style={styles.form}>
+      <Text style={styles.title}>Your Expense</Text>
+      <View style={styles.inputRow}>
+        <Input
+          style={styles.rowInput}
+          label="Amount"
+          textInputConfig={{
+            inputMode: "numeric",
+            // KeyboardType: "numeric",
+            onChangeText: amountChangeHandler,
+          }}
+        />
+        <Input
+          style={styles.rowInput}
+          label="Date"
+          textInputConfig={{
+            placeholder: "YYYY-MM-DD",
+            maxLength: 10,
+            onChangeText: () => {},
+          }}
+        />
+      </View>
       <Input
         label="Description"
         textInputConfig={{
           multiline: true,
-          onChangeText: () => { },
+          onChangeText: () => {},
         }}
       />
     </View>
@@ -37,3 +42,24 @@ function ExpenseForm() {
 }
 
 export default ExpenseForm;
+
+// ______________________________________________________________________
+const styles = StyleSheet.create({
+  form: {
+    marginTop: 80,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
+    marginVertical: 24,
+    textAlign: "center",
+  },
+  inputRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  rowInput: {
+    flex: 1,
+  },
+});
