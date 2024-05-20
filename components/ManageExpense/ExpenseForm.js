@@ -1,79 +1,88 @@
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 import Input from "./Input";
 import Button from "../UI/Button";
 import { getFormattedDate } from "../../util/date";
 
-function ExpenseForm( { submitButtonLabel, onCancel, onSubmit, defaultValues } ) {
+function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
   // const [amountValue, setAmountValue] = useState("");
-  const [ inputValues, setInputValues ] = useState( {
+  const [inputValues, setInputValues] = useState({
     amount: defaultValues ? defaultValues.amount.toString() : "",
-    date: defaultValues ? getFormattedDate( defaultValues.date ) : "",
+    date: defaultValues ? getFormattedDate(defaultValues.date) : "",
     description: defaultValues ? defaultValues.description : "",
-  } );
+  });
   // ______________________________________________________________________
-  function inputChangeHandler( inputIdentifier, enteredValue ) {
-    setInputValues( ( currentInputValues ) => {
+  function inputChangeHandler(inputIdentifier, enteredValue) {
+    setInputValues((currentInputValues) => {
       return {
         ...currentInputValues,
-        [ inputIdentifier ]: enteredValue,
+        [inputIdentifier]: enteredValue,
       };
-    } );
+    });
   }
 
   // ______________________________________________________________________
   function submitHandler() {
     const expenseData = {
       amount: +inputValues.amount,
-      date: new Date( inputValues.date ),
+      date: new Date(inputValues.date),
       description: inputValues.description,
     };
 
-    onSubmit( expenseData );
+    const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
+    const dateIsValid = expenseData.date.toString() !== 'Invalid Date';
+    const descriptionIsValid = expenseData.description.trim().length > 0;
+
+    if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
+      Alert.alert("Invalid Input", "Please check your input values");
+      return;
+    }
+
+    onSubmit(expenseData);
   }
 
   // ______________________________________________________________________
   return (
-    <View style={ styles.form }>
-      <Text style={ styles.title }>Your Expense</Text>
-      <View style={ styles.inputRow }>
+    <View style={styles.form}>
+      <Text style={styles.title}>Your Expense</Text>
+      <View style={styles.inputRow}>
         <Input
-          style={ styles.rowInput }
+          style={styles.rowInput}
           label="Amount"
-          textInputConfig={ {
+          textInputConfig={{
             inputMode: "numeric",
             // KeyboardType: "numeric",
-            onChangeText: inputChangeHandler.bind( this, "amount" ),
+            onChangeText: inputChangeHandler.bind(this, "amount"),
             value: inputValues.amount,
-          } }
+          }}
         />
         <Input
-          style={ styles.rowInput }
+          style={styles.rowInput}
           label="Date"
-          textInputConfig={ {
+          textInputConfig={{
             inputMode: "numeric",
             placeholder: "YYYY-MM-DD",
             maxLength: 10,
-            onChangeText: inputChangeHandler.bind( this, "date" ),
+            onChangeText: inputChangeHandler.bind(this, "date"),
             value: inputValues.date,
-          } }
+          }}
         />
       </View>
       <Input
         label="Description"
-        textInputConfig={ {
+        textInputConfig={{
           multiline: true,
-          onChangeText: inputChangeHandler.bind( this, "description" ),
+          onChangeText: inputChangeHandler.bind(this, "description"),
           value: inputValues.description,
-        } }
+        }}
       />
-      <View style={ styles.buttons }>
-        <Button style={ styles.button } mode="flat" onPress={ onCancel }>
+      <View style={styles.buttons}>
+        <Button style={styles.button} mode="flat" onPress={onCancel}>
           Cancel
         </Button>
-        <Button style={ styles.button } onPress={ submitHandler }>
-          { submitButtonLabel }
+        <Button style={styles.button} onPress={submitHandler}>
+          {submitButtonLabel}
         </Button>
       </View>
     </View>
@@ -83,7 +92,7 @@ function ExpenseForm( { submitButtonLabel, onCancel, onSubmit, defaultValues } )
 export default ExpenseForm;
 
 // ______________________________________________________________________
-const styles = StyleSheet.create( {
+const styles = StyleSheet.create({
   form: {
     marginTop: 80,
   },
@@ -110,4 +119,4 @@ const styles = StyleSheet.create( {
     minWidth: 120,
     marginHorizontal: 8,
   },
-} );
+});
