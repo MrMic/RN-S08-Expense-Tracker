@@ -4,10 +4,10 @@ const { createContext, useReducer } = require("react");
 
 export const ExpensesContext = createContext({
   expenses: [],
-  addExpense: ({ description, amount, date }) => {},
-  setExpenses: (expenses) => {},
-  deleteExpense: (id) => {},
-  updateExpense: (id, { description, amount, date }) => {},
+  addExpense: ({ description, amount, date }) => { },
+  setExpenses: (expenses) => { },
+  deleteExpense: (id) => { },
+  updateExpense: (id, { description, amount, date }) => { },
 });
 
 // WARN: ______________________________________________________________
@@ -58,7 +58,7 @@ function ExpensesContextProvider({ children }) {
   const value = {
     expenses: expensesState,
     addExpense: addExpense,
-    setExpense: setExpenses,
+    setExpenses: setExpenses,
     deleteExpense: deleteExpense,
     updateExpense: updateExpense,
   };
