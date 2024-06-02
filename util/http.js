@@ -3,7 +3,7 @@ import axios from "axios";
 const BACKEND_URL =
   "https://react-native-course-9316a-default-rtdb.europe-west1.firebasedatabase.app";
 
-export function storeExpense(expenseData) {
+export async function storeExpense(expenseData) {
   axios.post(BACKEND_URL + "/expenses.json", expenseData);
 }
 
@@ -16,11 +16,10 @@ export async function fecthExpenses() {
   for (const key in response.data) {
     const expenseObj = {
       id: key,
-      description: response.data[key].description,
       amount: response.data[key].amount,
       date: new Date(response.data[key].date),
+      description: response.data[key].description,
     };
-
     expenses.push(expenseObj);
   }
 
