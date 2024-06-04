@@ -1,13 +1,12 @@
 const { createContext, useReducer } = require("react");
 
-// ______________________________________________________________________
-
+// * NOTE:  ______________________________________________________________________
 export const ExpensesContext = createContext({
   expenses: [],
-  addExpense: ({ description, amount, date }) => { },
-  setExpenses: (expenses) => { },
-  deleteExpense: (id) => { },
-  updateExpense: (id, { description, amount, date }) => { },
+  addExpense: ({ description, amount, date }) => {},
+  setExpenses: (expenses) => {},
+  deleteExpense: (id) => {},
+  updateExpense: (id, { description, amount, date }) => {},
 });
 
 // WARN: ______________________________________________________________
