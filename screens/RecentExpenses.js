@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import { ExpensesContext } from "../store/expenses-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
@@ -14,25 +15,30 @@ function RecentExpenses() {
   const expensesCtx = useContext(ExpensesContext);
 
   // __ TEST: For testing slow network __________________________________
-  const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
+  // const sleep = (ms) => {
+  //   return new Promise((resolve) => setTimeout(resolve, ms));
+  // };
 
   useEffect(() => {
     async function getExpenses() {
+      setIsFetching(true);
       try {
-        setIsFetching(true);
         const expenses = await fetchExpenses();
-        await sleep(1000);
-        setIsFetching(false);
         expensesCtx.setExpenses(expenses);
+        // await sleep(1000);
       } catch (error) {
         setError("Could not fetch expenses");
       }
+      setIsFetching(false);
     }
 
     getExpenses();
   }, []);
+
+  // __ * INFO: Error Handling __________________________________________
+  if (error && !isFetching) {
+    return <ErrorOverlay message={error} />;
+  }
 
   // ______________________________________________________________________
   if (isFetching) {

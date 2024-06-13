@@ -9,9 +9,12 @@ import { ExpensesContext } from "../store/expenses-context";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 
 import { GlobalStyles } from "../constants/styles";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function ManageExpense({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, seterror] = useState();
+
   const expensesCtx = useContext(ExpensesContext);
 
   const editedExpenseId = route.params?.expenseId;
@@ -30,10 +33,14 @@ function ManageExpense({ route, navigation }) {
   // ______________________________________________________________________
   async function deleteExpenseHandler() {
     setIsSubmitting(true);
-    await deleteExpense(editedExpenseId);
-    // setIsSubmitting(false);
-    expensesCtx.deleteExpense(editedExpenseId);
-    navigation.goBack();
+    try {
+      await deleteExpense(editedExpenseId);
+      expensesCtx.deleteExpense(editedExpenseId);
+      navigation.goBack();
+    } catch (error) {
+      seterror("Could not delete expense - please try again later!");
+      setIsSubmitting(false);
+    }
   }
 
   function cancelHandler() {
@@ -42,14 +49,24 @@ function ManageExpense({ route, navigation }) {
 
   async function confirmHandler(expenseData) {
     setIsSubmitting(true);
-    if (isEditing) {
-      expensesCtx.updateExpense(editedExpenseId, expenseData);
-      await updateExpense(editedExpenseId, expenseData);
-    } else {
-      const id = await storeExpense(expenseData);
-      expensesCtx.addExpense({ ...expenseData, id: id });
+    try {
+      if (isEditing) {
+        expensesCtx.updateExpense(editedExpenseId, expenseData);
+        await updateExpense(editedExpenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        expensesCtx.addExpense({ ...expenseData, id: id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      seterror("Could not save data - please try again later!");
+      setIsSubmitting(false);
     }
-    navigation.goBack();
+  }
+
+  // __ * INFO: Error Handling __________________________________________
+  if (error && !isSubmitting) {
+    return <ErrorOverlay message={error} />;
   }
 
   if (isSubmitting) {
